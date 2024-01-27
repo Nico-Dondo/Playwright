@@ -23,6 +23,8 @@ import { test, Browser, Page, expect } from '@playwright/test';
         });
         await test.step(`Soy redirigido a la seccion de titulo "${seccion.tituloEsperado}"`, async ()=>{
           await expect (page).toHaveTitle(seccion.tituloEsperado);
+          page.getByText('¿Qué es Free Range Testers?', {exact: true}); // esto es para forzar por si hay mas texto que contenga lo mismo solamente trae lo que se le pde con el Exact: true 
+
         });
       });
     }
