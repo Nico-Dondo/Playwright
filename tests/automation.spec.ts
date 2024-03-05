@@ -25,7 +25,9 @@ import { test, Browser, Page, expect } from '@playwright/test';
                 await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
             })
             await test.step('Puedo ingresar un texto en el campo un aburrido texto', async () => {
-                await page.getByPlaceholder('Ingresá texto').fill(textoAEscribir); // textoAEscribir esta hecho como una variable mas arriba//
+                await expect(page.getByPlaceholder('Ingresá texto'), 'El campo de texto no admite edicion').toBeEditable() //en este caso se chequea que el campo sea editable
+                await page.getByPlaceholder('Ingresá texto').fill(textoAEscribir);// textoAEscribir esta hecho como una variable mas arriba//
+                await expect(page.getByPlaceholder('Ingresá texto'), 'El campo de texto no admite edicion').toHaveValue(textoAEscribir) //a veces es necesario utilizar el tohaveValue para chequear un campo con texto
             })
 
         })
@@ -42,9 +44,74 @@ import { test, Browser, Page, expect } from '@playwright/test';
                 await page.getByLabel('Pasta 🍝').uncheck();
                 await expect(page.getByLabel('Pasta 🍝')).not.toBeChecked();
             })
-            
+
 
         })
+        test('Puedo seleccinar Radio Butons', async ({ page }) => {
+            await test.step('Dado que navego al SandBox de Automation de Free Range Testers', async () => {
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
+            })
+            await test.step('Puedo seleccionar Radio Button para No', async () => {
+                await page.getByLabel('No').check();
+                await expect(page.getByLabel('No'), 'El radio button noo se selecciono').toBeChecked()
+            })
+
+        })
+        test('Los items del dropdown son los eperados', async ({ page }) => {
+            await test.step('Dado que navego al SandBox de Automation de Free Range Testers', async () => {
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
+            })
+            await test.step('Valido que la lista del dropdown contiene los deportes esperados', async () => {
+                const deportes = ['Fútbol', 'Tennis', 'Basketball']
+
+                for (let opcion of deportes) {
+                    const elemento = await page.$('select#formBasicLocator > option:is(:text("${opcion}"))')
+                    if (elemento) {
+                        console.log('Opcion presente en la lista')
+                    }
+                    else (
+                        console.log('Opcion no presente en la lista')
+                    )
+                }
+
+            })
+
+        })
+        test('Valido la columna nombres de la tabla estatica', async ({ page }) => {
+            await test.step('Dado que  navego al Sandbox de Automation de Free Range testers', async () => {
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
+
+            })
+            await test.step('Validar los elementos para la columna Nombre de la tabla estatica', async () => {
+                const valoresColumnaNombres = await page.$$eval('h2:has-text("Tabla estática") + table tbody tr td:nth-child(2)', elements => elements.map(element => element.textContent));
+                const nombresEsperados = ['Messi', 'Ronaldo', 'Mbappe']
+            })
+        })
+        test('Valido la segunda columna de la tabla dinamica', async ({ page }) => {
+            await test.step('Dado que nabego al Sandbox de Automation de Free Range Testers', async () => {
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
+
+            })
+            await test.step('Valido que los valores cambiaron  al hacer un reload en la web', async () => {
+                //Creamos un array con todos los valores de la tabla
+                const valoresTablaDinamica = await page.$$eval('h2:has-text("Tabla dinámica") + table tbody tr td', elements => elements.map(element => element.textContent));
+                console.log(valoresTablaDinamica)
+
+                //Hacemos ua recarga de la pagina
+                await page.reload();
+
+                //Creamos un segundo Array para poder compara los datos
+                const valoresReload = await page.$$eval('h2:has-text("Tabla dinámica") + table tbody tr td', elements => elements.map(element => element.textContent));
+
+                //validamos que los valores no son los mismos
+                expect(valoresTablaDinamica).not.toEqual(valoresReload)
+                console.log(valoresReload)
+            })
+
+        })
+
+
+
 
         test('Puedo seleccionar Radio button', async ({ page }) => {
             await test.step('Dado que navego al sandbox de Free Range Testers', async () => {
