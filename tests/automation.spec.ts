@@ -6,7 +6,7 @@ import { test, Browser, Page, expect } from '@playwright/test';
     let page: Page;
     let textoAEscribir = 'Estoy aprendiendo Playwright'
 
-    test.describe('Acciones en el  Automation @Sandbox', () => {
+    test.describe('Acciones en el  Automation Sandbox', () => {
         test('Click en Botn ID Dinamico', async ({ page }) => {
             await test.step('Dado que navego al sandbox de Free Range Testers', async () => {
                 await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
@@ -173,7 +173,8 @@ import { test, Browser, Page, expect } from '@playwright/test';
 
         })
 
-       /*  test('Puedo subir archivos a Automation Sandbox - NO IMPLEMENTADO EN PROD', async ({ page }) => {
+        test('Puedo subir archivos a Automation Sandbox - NO IMPLEMENTADO EN PROD', async ({ page }) => {
+            test.fail(); //ejemplo del fail, es que si todavia no esta implementado con ese fail pasa aunque no se pueda probar
             await test.step('Dado que navego al Sandbox de Automation de Free Range Testers', async () => {
                 await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/');
             })
@@ -186,6 +187,7 @@ import { test, Browser, Page, expect } from '@playwright/test';
         })
 
         test('Puedo hacer un Drag and Drop de elementos en Automation Sandbox - NO IMPLEMENTADO EN PROD', async ({ page }) => {
+            test.fixme(); // lo saltea porque no lo puede probar, fixme es que lo arregle
             await test.step('Dado que navego al Sandbox de Automation de Free Range Testers', async () => {
                 await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/');
             })
@@ -194,7 +196,7 @@ import { test, Browser, Page, expect } from '@playwright/test';
 
             })
 
-        }) */
+        }) 
 
     })
 
