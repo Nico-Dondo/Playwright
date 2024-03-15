@@ -6,7 +6,7 @@ import { test, Browser, Page, expect } from '@playwright/test';
     let page: Page;
     let textoAEscribir = 'Estoy aprendiendo Playwright'
 
-    test.describe('Acciones en el  Automation Sandbox', () => {
+    test.describe('Acciones en el  Automation @Sandbox', () => {
         test('Click en Botn ID Dinamico', async ({ page }) => {
             await test.step('Dado que navego al sandbox de Free Range Testers', async () => {
                 await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
@@ -20,7 +20,7 @@ import { test, Browser, Page, expect } from '@playwright/test';
 
 
         })
-        test('lleno un campo de texto en Automation Sandbox', async ({ page }) => {
+        test('lleno un campo de texto en Automation @Sandbox', async ({ page }) => {
             await test.step('Dado que navego al sandbox de Free Range Testers', async () => {
                 await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
             })
@@ -109,8 +109,38 @@ import { test, Browser, Page, expect } from '@playwright/test';
             })
 
         })
+        test('ejemplo de soft Assertions', async ({ page }) => {
+            await test.step('Dado que navego bla bla bla', async () => {
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/')
+            })
+            await test.step('Valido que los elementos del checkbox sean los correctos', async () => {
+                // Este tipo de pruebas sirve para poder validar muchos datos y que si falla uno siga validando los demas. para eso se una el .soft en la asersion
+                await expect.soft(page.getByText('Pizza')).toBeVisible();
+                await expect.soft(page.getByText('Hamburguesa')).toBeVisible();
+                await expect.soft(page.getByText('Pasta')).toBeVisible();
+                await expect.soft(page.getByText('Helado')).toBeVisible();
+                await expect.soft(page.getByText('Torta')).toBeVisible();
+
+            })
+
+        })
+        test('Validando dentro de un popup', async ({ page }) => {
+            await test.step('Dado que navego al sandbox', async () => {
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/');
+            })
+
+            await test.step('Cuando hago click en el botón popup', async () => {
+                await page.getByRole('button', { name: 'Mostrar popup' }).click();
+            })
+
+            await test.step('Puedo validar un elemento dentro del popup', async () => {
+                await expect(page.getByText('¿Viste? ¡Apareció un Pop-up!')).toHaveText('¿Viste? ¡Apareció un Pop-up!');
+                await page.getByRole('button', { name: 'Cerrar' }).click();
+
+            })
 
 
+        })
 
 
         test('Puedo seleccionar Radio button', async ({ page }) => {
@@ -143,9 +173,9 @@ import { test, Browser, Page, expect } from '@playwright/test';
 
         })
 
-        test('Puedo subir archivos a Automation Sandbox - NO IMPLEMENTADO EN PROD', async ({ page }) => {
+       /*  test('Puedo subir archivos a Automation Sandbox - NO IMPLEMENTADO EN PROD', async ({ page }) => {
             await test.step('Dado que navego al Sandbox de Automation de Free Range Testers', async () => {
-                await page.goto('');
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/');
             })
             await test.step('Agrego archivos para ser subidos', async () => { // codigo a modo de ejemplo para mostrar como se haria, sandbox todavia no cuenta con esta funcion
                 await page.getByLabel('Upload file').setInputFiles(['pathAlArchivo.pdf', 'Invoice1.pdf', 'Invoice2.pdf']);
@@ -157,14 +187,14 @@ import { test, Browser, Page, expect } from '@playwright/test';
 
         test('Puedo hacer un Drag and Drop de elementos en Automation Sandbox - NO IMPLEMENTADO EN PROD', async ({ page }) => {
             await test.step('Dado que navego al Sandbox de Automation de Free Range Testers', async () => {
-                await page.goto('');
+                await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/');
             })
             await test.step('Selecciono un día de la semana del dropdown', async () => { // codigo a modo de ejemplo para mostrar como se haria, sandbox todavia no cuenta con esta funcion
                 await page.getByTestId('DragFrom').dragTo(page.getByTestId('DragTo'));
 
             })
 
-        })
+        }) */
 
     })
 
