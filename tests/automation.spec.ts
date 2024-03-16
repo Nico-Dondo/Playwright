@@ -1,4 +1,5 @@
 import { test, Browser, Page, expect } from '@playwright/test';
+import { SandBoxPage } from './Pages/SandboxPage';
 
 (async () => {
 
@@ -36,7 +37,10 @@ import { test, Browser, Page, expect } from '@playwright/test';
                 await page.goto('')
             })
             await test.step('Puedo seleccionar el checkbox Pasta', async () => {
-                await page.getByLabel('Pasta 🍝').check();
+                const sandbox = new SandBoxPage(page);
+                await sandbox.checkPasta();
+
+                /* await page.getByLabel('Pasta 🍝').check(); */
                 await expect(page.getByLabel('Pasta 🍝')).toBeChecked();
                 //assertion expect (), dentro del parentesis se coloca el locator
             })
@@ -196,7 +200,7 @@ import { test, Browser, Page, expect } from '@playwright/test';
 
             })
 
-        }) 
+        })
 
     })
 
